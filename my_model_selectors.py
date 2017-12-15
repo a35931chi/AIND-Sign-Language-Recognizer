@@ -104,53 +104,46 @@ class SelectorCV(ModelSelector):
     '''
 
     def select(self):
-        # TODO implement model selection using CV
+        best_score = float('-inf')
         warnings.filterwarnings("ignore", category=DeprecationWarning)
-        outside_scores = []
-        models = []
-        trials = range(self.min_n_components, self.max_n_components + 1)
-        X = np.array(self.sequences)
-        y = np.array(self.lengths)
+        #X = np.array(self.sequences)
+        #y = np.array(self.lengths)
 
-        for n_components in trials:
+        for n_components in range(self.min_n_components, self.max_n_components + 1):
             #going into K-folds
             #1. define kfold
             #2. define model
             #3. fit model with train, score with testing, record scores
-            if len(y) < 2:
-                n_splits = 2
-            else:
-                n_splits= len(y)
-            
-            kf = KFold(n_splits = n_splits, random_state = self.random_state)
-            #GaussianHMM takes in a numpy array and a list
-            model = GaussianHMM(n_components = n_components, covariance_type = 'diag', n_iter = 1000,
-                                verbose = self.verbose, random_state = self.random_state)
             inside_scores = []
-            if n_components > min(y):
-                break
-            for train_idx, test_idx in kf.split(self.lengths):
+            if len(self.lengths) <= 2:
+                #GaussianHMM takes in a numpy array and a list
+                print('short')
+                try:
+                    print(n_components, self.this_word, 'with length: ', len(self.lengths))
+                    model = GaussianHMM(n_components = n_components, covariance_type = 'diag', n_iter = 1000,
+                                        verbose = self.verbose, random_state = self.random_state).fit(self.X, self.lengths)
+                    inside_scores.append(model.score(self.X, self.lengths))
+                except:
+                    print('some error with ', self.this_word)
                 
-                #print(train_idx, test_idx)
-                #print(np.array(X[test_idx][0]))
-                #print(list(y[test_idx]))
-                #print(type(list(y[test_idx])))
-                model.fit(np.array(X[train_idx][0]), list(y[train_idx]))
-                #inside_scores.append(model.score(np.array(X[train_idx][0]), list(y[train_idx])))
-            #print('works', n_components)
-'''
+            else:
+                print('long, kfold')
+                kf = KFold()
+                for train, test in kf.split(self.sequences):
+                    x_train, length_train = combine_sequences(train, self.sequences)
+                    x_test, length_test = combine_sequences(test, self.sequences)
+                    #GaussianHMM takes in a numpy array and a list
+                    try:
+                        print(n_components, self.this_word, 'with length: ', len(self.lengths))
+                        model = GaussianHMM(n_components = n_components, covariance_type = 'diag', n_iter = 1000,
+                                            verbose = self.verbose, random_state = self.random_state).fit(x_train, length_train)
+                        inside_scores.append(model.score(x_test, length_test))
+                    except:
+                        print('some error with ', self.this_word)
+                    
+            average_score = np.mean(inside_scores)
+            if average_score > best_score:
+                best_model = model
+                best_score = average_score
                 
-                print('works')
-                inside_scores.append(model.score(np.array(X[train_idx][0], list(y[train_idx]))
-        
-            
-            outside_scores.append(np.mean(inside_scores))
-            models.append(model)
-        print(outside_scores)
-        return models[np.argmin(outside_scores)]
-    
-        
-        model = GaussianHMM(n_components=num_hidden_states, n_iter=1000).fit(X, lengths)
-        logL = model.score(X, lengths)
-
-'''
+        return best_model
