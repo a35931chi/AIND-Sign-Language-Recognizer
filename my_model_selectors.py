@@ -104,11 +104,36 @@ class SelectorCV(ModelSelector):
     '''
 
     def select(self):
-        #Training complete for FISH with 5 states with time 0.25316671729524387 seconds
-        #Training complete for BOOK with 6 states with time 2.7065385947844334 seconds
-        #Training complete for VEGETABLE with 2 states with time 1.1540903888690082 seconds
-        #Training complete for FUTURE with 2 states with time 2.724060741598805 seconds
-        #Training complete for JOHN with 12 states with time 24.234671652046018 seconds
+        #features_ground
+        #Training complete for FISH with 5 states with time 0.25316671729524387 seconds, 129.629479202
+        #Training complete for BOOK with 6 states with time 2.7065385947844334 seconds, -872.181584526
+        #Training complete for VEGETABLE with 2 states with time 1.1540903888690082 seconds, -733.102980665
+        #Training complete for FUTURE with 2 states with time 2.724060741598805 seconds, -823.622325721
+        #Training complete for JOHN with 12 states with time 24.234671652046018 seconds, -6466.75908837
+        #features_norm
+        #Training complete for FISH with 7 states with time 0.2778986163702939 seconds, 198.327634515
+        #Training complete for BOOK with 5 states with time 2.953319445658053 seconds,  -164.310862245
+        #Training complete for VEGETABLE with 2 states with time 1.2421704554308235 seconds, -543.54843802
+        #Training complete for FUTURE with 2 states with time 2.9048829508210474 seconds, -186.157748889
+        #Training complete for JOHN with 7 states with time 30.14987841524271 seconds, -989.344976839
+        #features_polar
+        #Training complete for FISH with 8 states with time 0.3030782141686359 seconds, 177.228941261
+        #Training complete for BOOK with 5 states with time 3.074277725245338 seconds, -388.011624949
+        #Training complete for VEGETABLE with 4 states with time 1.3913127217656438 seconds, -523.096316927
+        #Training complete for FUTURE with 2 states with time 2.7460244203139155 seconds, -380.284159976
+        #Training complete for JOHN with 14 states with time 26.484363145560565 seconds, -2737.76371059
+        #features_delta
+        #Training complete for FISH with 4 states with time 0.276614712582159 seconds, 163.83318006
+        #Training complete for BOOK with 9 states with time 3.9357891861836833 seconds, -243.090832208
+        #Training complete for VEGETABLE with 5 states with time 1.2812572582024586 seconds, 150.331275284
+        #Training complete for FUTURE with 15 states with time 3.559952718207569 seconds, -102.934264146
+        #Training complete for JOHN with 14 states with time 31.8506579218174 seconds, 1491.34573686
+        #features_custom
+        #Training complete for FISH with 8 states with time 0.3064113161399291 seconds, 213.85722355
+        #Training complete for BOOK with 8 states with time 4.687662835387528 seconds, -6.0624130653
+        #Training complete for VEGETABLE with 2 states with time 4.112795439843467 seconds, 80.004348799
+        #Training complete for FUTURE with 7 states with time 3.984837135316411 seconds, -21.0385378184
+        #Training complete for JOHN with 9 states with time 42.12399872481001 seconds, 2152.96757772
         best_score = float('-inf')
         warnings.filterwarnings("ignore", category=DeprecationWarning)
         #X = np.array(self.sequences)
@@ -150,5 +175,5 @@ class SelectorCV(ModelSelector):
             if average_score > best_score:
                 best_model = model
                 best_score = average_score
-                
+        print('best score: ',best_score)
         return best_model
