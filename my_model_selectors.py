@@ -104,6 +104,11 @@ class SelectorCV(ModelSelector):
     '''
 
     def select(self):
+        #Training complete for FISH with 5 states with time 0.25316671729524387 seconds
+        #Training complete for BOOK with 6 states with time 2.7065385947844334 seconds
+        #Training complete for VEGETABLE with 2 states with time 1.1540903888690082 seconds
+        #Training complete for FUTURE with 2 states with time 2.724060741598805 seconds
+        #Training complete for JOHN with 12 states with time 24.234671652046018 seconds
         best_score = float('-inf')
         warnings.filterwarnings("ignore", category=DeprecationWarning)
         #X = np.array(self.sequences)
@@ -117,9 +122,9 @@ class SelectorCV(ModelSelector):
             inside_scores = []
             if len(self.lengths) <= 2:
                 #GaussianHMM takes in a numpy array and a list
-                print('short')
+                #print('short')
                 try:
-                    print(n_components, self.this_word, 'with length: ', len(self.lengths))
+                    #print(n_components, self.this_word, 'with length: ', len(self.lengths))
                     model = GaussianHMM(n_components = n_components, covariance_type = 'diag', n_iter = 1000,
                                         verbose = self.verbose, random_state = self.random_state).fit(self.X, self.lengths)
                     inside_scores.append(model.score(self.X, self.lengths))
@@ -127,14 +132,14 @@ class SelectorCV(ModelSelector):
                     print('some error with ', self.this_word)
                 
             else:
-                print('long, kfold')
+                #print('long, kfold')
                 kf = KFold()
                 for train, test in kf.split(self.sequences):
                     x_train, length_train = combine_sequences(train, self.sequences)
                     x_test, length_test = combine_sequences(test, self.sequences)
                     #GaussianHMM takes in a numpy array and a list
                     try:
-                        print(n_components, self.this_word, 'with length: ', len(self.lengths))
+                        #print(n_components, self.this_word, 'with length: ', len(self.lengths))
                         model = GaussianHMM(n_components = n_components, covariance_type = 'diag', n_iter = 1000,
                                             verbose = self.verbose, random_state = self.random_state).fit(x_train, length_train)
                         inside_scores.append(model.score(x_test, length_test))
