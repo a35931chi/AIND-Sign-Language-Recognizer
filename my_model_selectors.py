@@ -4,7 +4,8 @@ import warnings
 
 import numpy as np
 from hmmlearn.hmm import GaussianHMM
-from sklearn.model_selection import KFold
+from sklearn.model_selection import KFold, cross_val_score
+from sklearn.metrics import log_loss
 from asl_utils import combine_sequences
 
 
@@ -103,7 +104,35 @@ class SelectorCV(ModelSelector):
     '''
 
     def select(self):
-        warnings.filterwarnings("ignore", category=DeprecationWarning)
-
         # TODO implement model selection using CV
-        raise NotImplementedError
+        warnings.filterwarnings("ignore", category=DeprecationWarning)
+        avg_scores = []
+        models = []
+        trials = range(self.min_n_components, self.max_n_components + 1)
+        print(self.X)
+        print(self.lengths)
+        print(self.sequences)
+        for n_components in trials:
+            if len(self.sequences) > 2:
+                split_method = KFold()
+            else:
+                split_method = KFold(n_splits = 2)
+            for train_idx, test_idx in split_method.split(self.sequences):
+                #model = GaussianHMM(n_components = n_components, verbose = self.verbose, random_state = self.random_state)
+                print('some indexes', train_idx, test_idx)
+                print(self.lengths[train_idx])
+                print(self.sequences[train_idx])
+                
+                print('next')
+            
+                #avg_score = model.score(
+            print('works')
+            avg_scores.append(avg_score.mean())
+            models.append(model)
+
+        return models[np.argmin(avg_scores)]
+    
+        
+        model = GaussianHMM(n_components=num_hidden_states, n_iter=1000).fit(X, lengths)
+        logL = model.score(X, lengths)
+        
