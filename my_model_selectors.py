@@ -106,33 +106,51 @@ class SelectorCV(ModelSelector):
     def select(self):
         # TODO implement model selection using CV
         warnings.filterwarnings("ignore", category=DeprecationWarning)
-        avg_scores = []
+        outside_scores = []
         models = []
         trials = range(self.min_n_components, self.max_n_components + 1)
-        print(self.X)
-        print(self.lengths)
-        print(self.sequences)
-        for n_components in trials:
-            if len(self.sequences) > 2:
-                split_method = KFold()
-            else:
-                split_method = KFold(n_splits = 2)
-            for train_idx, test_idx in split_method.split(self.sequences):
-                #model = GaussianHMM(n_components = n_components, verbose = self.verbose, random_state = self.random_state)
-                print('some indexes', train_idx, test_idx)
-                print(self.lengths[train_idx])
-                print(self.sequences[train_idx])
-                
-                print('next')
-            
-                #avg_score = model.score(
-            print('works')
-            avg_scores.append(avg_score.mean())
-            models.append(model)
+        X = np.array(self.sequences)
+        y = np.array(self.lengths)
 
-        return models[np.argmin(avg_scores)]
+        for n_components in trials:
+            #going into K-folds
+            #1. define kfold
+            #2. define model
+            #3. fit model with train, score with testing, record scores
+            if len(y) < 2:
+                n_splits = 2
+            else:
+                n_splits= len(y)
+            
+            kf = KFold(n_splits = n_splits, random_state = self.random_state)
+            #GaussianHMM takes in a numpy array and a list
+            model = GaussianHMM(n_components = n_components, covariance_type = 'diag', n_iter = 1000,
+                                verbose = self.verbose, random_state = self.random_state)
+            inside_scores = []
+            if n_components > min(y):
+                break
+            for train_idx, test_idx in kf.split(self.lengths):
+                
+                #print(train_idx, test_idx)
+                #print(np.array(X[test_idx][0]))
+                #print(list(y[test_idx]))
+                #print(type(list(y[test_idx])))
+                model.fit(np.array(X[train_idx][0]), list(y[train_idx]))
+                #inside_scores.append(model.score(np.array(X[train_idx][0]), list(y[train_idx])))
+            #print('works', n_components)
+'''
+                
+                print('works')
+                inside_scores.append(model.score(np.array(X[train_idx][0], list(y[train_idx]))
+        
+            
+            outside_scores.append(np.mean(inside_scores))
+            models.append(model)
+        print(outside_scores)
+        return models[np.argmin(outside_scores)]
     
         
         model = GaussianHMM(n_components=num_hidden_states, n_iter=1000).fit(X, lengths)
         logL = model.score(X, lengths)
-        
+
+'''
