@@ -45,6 +45,7 @@ def recognize(models: dict, test_set: SinglesData):
                 best_guess = guess
         guesses.append(best_guess)
         
+
     #try these get_all_sequences, get_all_Xlengths, get_item_sequences and get_item_Xlengths
     #self.sequences = all_word_sequences[this_word]
     #self.X, self.lengths = all_word_Xlengths[this_word]
