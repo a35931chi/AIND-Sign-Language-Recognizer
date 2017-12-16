@@ -202,7 +202,7 @@ class SelectorCV(ModelSelector):
     #Training complete for JOHN with 12 states with time 24.234671652046018 seconds, -6466.75908837
     #features_norm
     #Training complete for FISH with 7 states with time 0.2778986163702939 seconds, 198.327634515
-    #Training complete for BOOK with 5 states with time 2.953319445658053 seconds,  -164.310862245
+    #Training complete for BOOK with 5 states with time 2.953319445658053 seconds, -164.310862245
     #Training complete for VEGETABLE with 2 states with time 1.2421704554308235 seconds, -543.54843802
     #Training complete for FUTURE with 2 states with time 2.9048829508210474 seconds, -186.157748889
     #Training complete for JOHN with 7 states with time 30.14987841524271 seconds, -989.344976839
