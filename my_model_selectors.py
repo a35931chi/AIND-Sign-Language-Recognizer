@@ -72,19 +72,35 @@ class SelectorBIC(ModelSelector): #bayesian information criterion
     N: # datapoints
     """
     #features_ground
-    #Training complete for FISH with 2 states with time 0.27888145027827704 seconds, -246.546743082
-    #
-    #
-    #
-    #
+    #Training complete for FISH with 2 states with time 0.24785232311842265 seconds, -55.8635132609
+    #Training complete for BOOK with 15 states with time 1.4070293507029419 seconds, 5326.0728508
+    #Training complete for VEGETABLE with 2 states with time 0.48193655838258564 seconds, 1684.36952095
+    #Training complete for FUTURE with 15 states with time 1.51898497986258 seconds, 4518.86250704
+    #Training complete for JOHN with 2 states with time 12.88493632011523 seconds, 33155.4870739
     #features_norm
-    #
+    #Training complete for FISH with 15 states with time 0.25418741028988734 seconds, 765.927165712
+    #Training complete for BOOK with 15 states with time 1.2978782986610895 seconds, 938.213287424
+    #Training complete for VEGETABLE with 15 states with time 0.5216864961112151 seconds, 284.261432606
+    #Training complete for FUTURE with 15 states with time 1.6133087910275208 seconds, 1038.9508218
+    #Training complete for JOHN with 2 states with time 11.968922797808773 seconds, 1106.52640794
     #features_polar
-    #
+    #Training complete for FISH with 15 states with time 0.2570193300707615 seconds, 806.932910796
+    #Training complete for BOOK with 15 states with time 1.691023280036461 seconds, 2648.15933662
+    #Training complete for VEGETABLE with 15 states with time 0.622443046864646 seconds, 1118.87242499
+    #Training complete for FUTURE with 15 states with time 1.2972343937144615 seconds, 2521.4625648
+    #Training complete for JOHN with 2 states with time 16.218004940310493 seconds, 11896.2320128
     #features_delta
-    #
+    #Training complete for FISH with 3 states with time 0.25097179167642025 seconds, -178.297830093
+    #Training complete for BOOK with 15 states with time 2.0354490252939286 seconds, 2311.51935148
+    #Training complete for VEGETABLE with 15 states with time 0.6006347105940222 seconds, 139.696994457
+    #Training complete for FUTURE with 6 states with time 1.4571328472375171 seconds, 1219.95618631
+    #Training complete for JOHN with 2 states with time 14.384262818988645 seconds, -6429.55352983
     #features_custom
-    #
+    #Training complete for FISH with 15 states with time 0.2826078660946223 seconds, 749.318147575
+    #Training complete for BOOK with 15 states with time 2.517547836905578 seconds, 985.993736056
+    #Training complete for VEGETABLE with 15 states with time 0.8043138926950633 seconds, 432.14275924
+    #Training complete for FUTURE with 2 states with time 2.092334105844202 seconds, 253.839358089
+    #Training complete for JOHN with 2 states with time 87.57936691794748 seconds, -13756.2029148
     def select(self):
         """ select the best model for self.this_word based on
         BIC score for n between self.min_n_components and self.max_n_components
@@ -111,7 +127,7 @@ class SelectorBIC(ModelSelector): #bayesian information criterion
         print('best score: ', score)
         return best_model
 
-class SelectorDIC(ModelSelector):
+class SelectorDIC(ModelSelector): #Deviance/Discriminative Information Criterion 
     ''' select best model based on Discriminative Information Criterion
 
     Biem, Alain. "A model selection criterion for classification: Application to hmm topology optimization."
@@ -121,20 +137,58 @@ class SelectorDIC(ModelSelector):
     DIC = log(P(X(i)) - 1/(M-1)SUM(log(P(X(all but i))
     '''
     #features_ground
-    #
+    #Training complete for FISH with 3 states with time 0.6466124680737266 seconds, 230180.61414
+    #Training complete for BOOK with 15 states with time 2.6932305248774355 seconds, 3567.62159984
+    #Training complete for VEGETABLE with 15 states with time 1.9102868847403442 seconds, 61692.8182094
+    #Training complete for FUTURE with 15 states with time 2.9005303577287123 seconds, 2872.43351904
+    #Training complete for JOHN with 15 states with time 14.206606651001493 seconds, -14012.5834179
     #features_norm
-    #
+    #Training complete for FISH with 2 states with time 1.6661934280855348 seconds, 5921.76222584
+    #Training complete for BOOK with 15 states with time 2.7481078719574725 seconds, 6701.439946
+    #Training complete for VEGETABLE with 5 states with time 1.9491248992271721 seconds, 14453.6937081
+    #Training complete for FUTURE with 15 states with time 2.9451022210269002 seconds, 2272.96080201
+    #Training complete for JOHN with 15 states with time 13.126323453019722 seconds, 1494.16136341
     #features_polar
-    #
+    #Training complete for FISH with 2 states with time 1.7060124736599391 seconds, 8299.81021031
+    #Training complete for BOOK with 14 states with time 3.064462005844689 seconds, 6309.42716149
+    #Training complete for VEGETABLE with 12 states with time 2.0801630104106152 seconds, 11653.9121093
+    #Training complete for FUTURE with 13 states with time 2.721184953348711 seconds, 2952.05062051
+    #Training complete for JOHN with 15 states with time 17.59380264779611 seconds, -4156.55721606
     #features_delta
-    #
+    #Training complete for FISH with 4 states with time 0.5097239261231152 seconds, 6773.7416203
+    #Training complete for BOOK with 15 states with time 3.3638772031554254 seconds, 414.828030913
+    #Training complete for VEGETABLE with 2 states with time 2.0508573731058277 seconds, 5506.91592539
+    #Training complete for FUTURE with 5 states with time 1.7761915020819288 seconds, -31.9504419956
+    #Training complete for JOHN with 15 states with time 15.24973446057993 seconds, 4503.2623067
     #features_custom
-    #
+    #Training complete for FISH with 3 states with time 1.737266652067774 seconds, 7639.05028789
+    #Training complete for BOOK with 15 states with time 3.907765649855719 seconds, 886.218551151
+    #Training complete for VEGETABLE with 15 states with time 2.2559553695464274 seconds, 3217.63147386
+    #Training complete for FUTURE with 7 states with time 2.6171499859774485 seconds, 237.470563057
+    #Training complete for JOHN with 10 states with time 89.40519108172157 seconds, 7986.9030521
     def select(self):
         warnings.filterwarnings("ignore", category=DeprecationWarning)
+        best_score = float('-inf')
+        
+        for n_components in range(self.min_n_components, self.max_n_components + 1):
+            #GaussianHMM takes in a numpy array and a list
+            try:
+                #print(n_components, self.this_word, 'with length: ', len(self.lengths))
+                model = GaussianHMM(n_components = n_components, covariance_type = 'diag', n_iter = 1000,
+                                    verbose = self.verbose, random_state = self.random_state).fit(self.X, self.lengths)
+                LogL_i = model.score(self.X, self.lengths)
+                
+                avg_LogL_but_i = np.mean([model.score(self.hwords[key][0], self.hwords[key][1]) for key in self.hwords if key != self.this_word])
 
-        # TODO implement model selection based on BIC scores
-        raise NotImplementedError
+                score = LogL_i - avg_LogL_but_i
+            except:
+                print('some error with ', self.this_word)
+
+            if score > best_score:
+                best_model = model
+                best_score = score
+        print('best score: ', score)
+        return best_model
 
 class SelectorCV(ModelSelector):
     ''' select best model based on average log Likelihood of cross-validation folds
