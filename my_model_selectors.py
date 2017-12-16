@@ -109,6 +109,8 @@ class SelectorBIC(ModelSelector): #bayesian information criterion
         """
         warnings.filterwarnings("ignore", category=DeprecationWarning)
         best_score = float('-inf')
+        score = float('-inf')
+        best_model = None
         
         for n_components in range(self.min_n_components, self.max_n_components + 1):
             #GaussianHMM takes in a numpy array and a list
@@ -118,13 +120,15 @@ class SelectorBIC(ModelSelector): #bayesian information criterion
                                     verbose = self.verbose, random_state = self.random_state).fit(self.X, self.lengths)
                 p = n_components * n_components + 2 * n_components * self.X.shape[1] - 1
                 score = -2 * model.score(self.X, self.lengths) + p * np.log(self.X.shape[0])
-            except:
-                print('some error with ', self.this_word)
 
+            except:
+                #print('some error with ', self.this_word)
+                pass
+            
             if score > best_score:
                 best_model = model
-                best_score = score
-        print('best score: ', score)
+                best_score = score  
+        #print('best score: ', score)
         return best_model
 
 class SelectorDIC(ModelSelector): #Deviance/Discriminative Information Criterion 
@@ -169,6 +173,8 @@ class SelectorDIC(ModelSelector): #Deviance/Discriminative Information Criterion
     def select(self):
         warnings.filterwarnings("ignore", category=DeprecationWarning)
         best_score = float('-inf')
+        score = float('-inf')
+        best_model = None
         
         for n_components in range(self.min_n_components, self.max_n_components + 1):
             #GaussianHMM takes in a numpy array and a list
@@ -182,12 +188,13 @@ class SelectorDIC(ModelSelector): #Deviance/Discriminative Information Criterion
 
                 score = LogL_i - avg_LogL_but_i
             except:
-                print('some error with ', self.this_word)
+                #print('some error with ', self.this_word)
+                pass
 
             if score > best_score:
                 best_model = model
                 best_score = score
-        print('best score: ', score)
+        #print('best score: ', score)
         return best_model
 
 class SelectorCV(ModelSelector):
@@ -228,7 +235,8 @@ class SelectorCV(ModelSelector):
         
         warnings.filterwarnings("ignore", category=DeprecationWarning)
         best_score = float('-inf')
-
+        average_score = float('-inf')
+        best_model = None
         for n_components in range(self.min_n_components, self.max_n_components + 1):
             #going into K-folds
             #1. define kfold
@@ -259,11 +267,12 @@ class SelectorCV(ModelSelector):
                                             verbose = self.verbose, random_state = self.random_state).fit(x_train, length_train)
                         inside_scores.append(model.score(x_test, length_test))
                     except:
-                        print('some error with ', self.this_word)
+                        #print('some error with ', self.this_word)
+                        pass
                     
             average_score = np.mean(inside_scores)
             if average_score > best_score:
                 best_model = model
                 best_score = average_score
-        print('best score: ',best_score)
+        #print('best score: ',best_score)
         return best_model
