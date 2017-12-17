@@ -51,7 +51,7 @@ def recognize(models: dict, test_set: SinglesData):
             if probability[guess] > best_value:
                 best_value = probability[guess]
                 best_guess = guess
-                print(best_guess)
+                #print(best_guess)
         guesses.append(best_guess)
         
 
