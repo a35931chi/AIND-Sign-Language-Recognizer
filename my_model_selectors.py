@@ -8,6 +8,10 @@ from sklearn.model_selection import KFold, cross_val_score
 from sklearn.metrics import log_loss
 from asl_utils import combine_sequences
 
+# Udacity Feedback:
+# Instead of using print statements, you can consider using the logging package.
+# Using this allows you to turn logging on and off based on whether you are debugging or not by just setting a simple flag.
+# In fact, it allows you to have five different levels of logging
 
 class ModelSelector(object):
     '''
@@ -72,6 +76,7 @@ class SelectorBIC(ModelSelector): #bayesian information criterion
     N: # datapoints
     testing results documented in asl_recognizer.ipynb
     """
+    #Udacity Feedback: You can use the method self.base_model(n_components) which does exactly the same thing
     def select(self):
         """ select the best model for self.this_word based on
         BIC score for n between self.min_n_components and self.max_n_components
@@ -91,7 +96,15 @@ class SelectorBIC(ModelSelector): #bayesian information criterion
                                     verbose = self.verbose, random_state = self.random_state).fit(self.X, self.lengths)
                 p = n_components * n_components + 2 * n_components * self.X.shape[1] - 1
                 score = -2 * model.score(self.X, self.lengths) + p * np.log(self.X.shape[0])
+                #Udacity Feedback: p is the sum of four terms:
+                #The free transition probability parameters, which is the size of the transmat matrix
+                #The free starting probabilities
+                #Number of means
+                #Number of covariances which is the size of the covars matrix
+                #These can all be calculated directly from the hmmlearn model as follows:
+                #p = (model.startprob_.size - 1) + (model.transmat_.size - 1) + model.means_.size + model.covars_.diagonal().size    
 
+                #Udacity Feedback: You can add a parameter alpha to the free parameters to provide a weight to the free parameters, so the penalty term will become alpha * p * logN. This regularization parameter can then be varied to further improve the result
             except:
                 #print('some error with ', self.this_word)
                 pass
@@ -129,6 +142,7 @@ class SelectorDIC(ModelSelector): #Deviance/Discriminative Information Criterion
                 avg_LogL_but_i = np.mean([model.score(self.hwords[key][0], self.hwords[key][1]) for key in self.hwords if key != self.this_word])
 
                 score = LogL_i - avg_LogL_but_i
+                #Udacity Feedback: You can add a parameter alpha to the free parameters to provide a weight to the free parameters, so the penalty term will become alpha * p * logN. This regularization parameter can then be varied to further improve the result
             except:
                 #print('some error with ', self.this_word)
                 pass
